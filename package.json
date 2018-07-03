@@ -1,0 +1,24 @@
+{
+  "name": "mysql-node-app",
+  "version": "0.0.1",
+  "description": "A node application using mysql database to demo sql queries using promises.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/qtech/mysql-node-app.git"
+  },
+  "keywords": [
+    "node",
+    "mysql",
+    "promises"
+  ],
+  "author": "Viral Patel",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/qtech/mysql-node-app/issues"
+  },
+  "homepage": "https://github.com/qtech/mysql-node-app#readme"
+}
