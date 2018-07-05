@@ -2,11 +2,11 @@ const express = require('express');
 const app = express();
 const mysql = require('mysql');
 const Q = require('q');
-
+const nsmarty = require('nsmarty');
 //Everything related to Express
 //Set view Engine 
-app.set('view engine','ejs');
-
+// app.set('view engine','ejs');
+nsmarty.tpl_path = __dirname + '/views/';
 
 //Everything related to Mysql or Database
 //Set database credentials.
@@ -25,28 +25,33 @@ conn.connect((err) => {
 
 
 //Everything Promises
-let deferred = Q.defer();
-
 function getUsers(){
-    conn.query('SELECT * FROM users LIMIT 1',deferred.makeNodeResolver());        
+    var deferred = Q.defer();
+    conn.query('SELECT * FROM users',deferred.makeNodeResolver());        
     return deferred.promise;
 }
 
 function getCategories(){
-    conn.query('SELECT * FROM categories LIMIT 1',deferred.makeNodeResolver());
+    var deferred = Q.defer();
+    conn.query('SELECT * FROM categories',deferred.makeNodeResolver());
     return deferred.promise;
 }
 
 //Application Routing
-app.get('/',(req,res) => {                 
+app.get('/',(req,res) => {
+    res.setHeader('Content-Type', 'text/html; charset=UTF-8');                 
     Q.all([getUsers(),getCategories()])
     .then((results) => {
-        console.log(results);
-        res.end('Finished Query');
-        // res.render('index',{data:results});
+        $arr = {
+            results:results[0][0]
+        }        
+        stream = nsmarty.assign('index.tpl',$arr);
+        stream.pipe(res);
+        //res.render('index.tpl',{data:results});
     })
     .catch((err) => {
-        res.render('error',{data:err});
+        stream = nsmarty.assign('error.tpl');
+        stream.pipe(res);        
     });        
 });
 

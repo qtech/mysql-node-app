@@ -7,9 +7,8 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Hello</h1>
-    <% data.forEach((row,index) => { %>
-        <h1><%= row.first_name %></h1>
-    <% }) %>
+    {foreach $results as $i=>$result}
+        <h1>{$result.email}</h1>
+    {/foreach}    
 </body>
 </html>
