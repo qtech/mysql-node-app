@@ -1,16 +1,18 @@
-const express = require('express');
-const app = express();
-const mysql = require('mysql');
-const Q = require('q');
-const nsmarty = require('nsmarty');
+var express = require('express');
+var app = express();
+var mysql = require('mysql');
+var Q = require('q');
+var nsmarty = require('nsmarty');
+
 //Everything related to Express
 //Set view Engine 
 // app.set('view engine','ejs');
+//View Engine is "Nsmarty"
 nsmarty.tpl_path = __dirname + '/views/';
 
 //Everything related to Mysql or Database
 //Set database credentials.
-const conn = mysql.createConnection({
+var conn = mysql.createConnection({
     host:'localhost',
     user:'root',
     password:'',
@@ -38,8 +40,7 @@ function getCategories(){
 }
 
 //Application Routing
-app.get('/',(req,res) => {
-    res.setHeader('Content-Type', 'text/html; charset=UTF-8');                 
+app.get('/',(req,res) => {    
     Q.all([getUsers(),getCategories()])
     .then((results) => {
         $arr = {
